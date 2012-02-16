@@ -1,6 +1,6 @@
 module ApplicationHelper
 
-	#Page Title Procedure
+	#Page Title Helper
 	def title 
 
 		baseTitle = "Ruby on Rails Tutorial Sample App"
@@ -15,5 +15,12 @@ module ApplicationHelper
 			"#{baseTitle} | #{@title}"
 
 		end
+	end
+
+	#Logo Link Helper
+	def logo
+
+		logo = image_tag("logo.png", :alt => "Sample App", :class => "round")
+
 	end
 end
