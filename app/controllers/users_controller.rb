@@ -20,7 +20,7 @@ class UsersController < ApplicationController
 
   	if @user.save
 
-  		#handle a successful save
+  		redirect_to user_path(@user)
 
 	  else
 
