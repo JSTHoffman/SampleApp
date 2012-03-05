@@ -19,12 +19,17 @@ class SessionsController < ApplicationController
 
   	else
 
-  		# sign in user and redirect to user's show page
+  		sign_in user
+  		redirect_to user
 
   	end
   end
 
   def destroy
+
+  	sign_out
+  	redirect_to root_path
+  	
   end
 
 end
