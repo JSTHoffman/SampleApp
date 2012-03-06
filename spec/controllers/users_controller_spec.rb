@@ -55,9 +55,6 @@ describe UsersController do
     it "should have a profile image" do
 
       get :show, :id => @user
-      print '***'
-      print response.body
-      print '***'
       response.should have_selector("h1>img", :class => "gravatar")
 
     end
