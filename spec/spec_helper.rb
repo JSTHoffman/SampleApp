@@ -18,19 +18,16 @@ Spork.prefork do
   RSpec.configure do |config|
 
     def test_sign_in(user)
-
       controller.sign_in(user)
-
     end
 
     def integration_sign_in(user)
-
       visit signin_path
       fill_in :email,    :with => user.email
       fill_in :password, :with => user.password
       click_button
-      
     end
+
     # == Mock Framework
     #
     # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -48,12 +45,10 @@ Spork.prefork do
     # instead of true.
     config.use_transactional_fixtures = true
   end
-
 end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
-
 end
 
 # --- Instructions ---
