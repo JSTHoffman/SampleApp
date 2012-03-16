@@ -66,6 +66,19 @@ describe UsersController do
 
   describe "GET 'index'" do
 
+    describe "for admin users" do
+
+      before(:each) do
+        admin = Factory(:user, :email => "admin@example.com", :admin => true)
+        test_sign_in(admin)
+      end
+
+      it "should show delete links" do
+        get :index
+        response.should have_selector("li", :content => "delete")
+      end
+    end
+
     describe "for non-signed-in users" do
 
       it "should deny access" do
@@ -104,6 +117,11 @@ describe UsersController do
         @users[0..2].each do |user|
           response.should have_selector("li", :content => user.name)
         end
+      end
+
+      it "should not show delete links" do
+        get :index
+        response.should_not have_selector("li", :content => "delete")
       end
 
       it "should paginate users" do
