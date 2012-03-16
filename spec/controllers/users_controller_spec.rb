@@ -5,14 +5,30 @@ describe UsersController do
 
   describe "GET 'new'" do
 
-    it "should be successful" do
-      get :new
-      response.should be_success
+    describe "for non-signed-in users" do
+
+      it "should be successful" do
+        get :new
+        response.should be_success
+      end
+
+      it "should have the right title" do
+    	 get :new
+    	 response.should have_selector("title", :content => "Sign Up")
+      end
     end
 
-    it "should have the right title" do
-    	get :new
-    	response.should have_selector("title", :content => "Sign Up")
+    describe "for signed-in users" do
+
+      before(:each) do
+        @user = Factory(:user)
+        test_sign_in(@user)
+      end
+
+      it "should deny access" do
+        get :new
+        response.should redirect_to(root_path)
+      end
     end
   end
 
