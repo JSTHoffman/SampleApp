@@ -317,6 +317,7 @@ describe UsersController do
     end
 
     describe "as a non-signed-in user" do
+      
       it "should deny access" do
         delete :destroy, :id => @user
         response.should redirect_to(signin_path)
@@ -324,6 +325,7 @@ describe UsersController do
     end
 
     describe "as a non-admin user" do
+
       it "should protect the page" do
         test_sign_in(@user)
         delete :destroy, :id => @user
@@ -334,8 +336,16 @@ describe UsersController do
     describe "as an admin user" do
 
       before(:each) do
-        admin = Factory(:user, :email => "admin@example.com", :admin => true)
-        test_sign_in(admin)
+        @admin = Factory(:user, :email => "admin@example.com", :admin => true)
+        test_sign_in(@admin)
+      end
+
+      it "should not destroy current admin user" do
+        lambda do
+          delete :destroy, :id => @admin
+        end.should_not change(User, :count)
+        response.should redirect_to(users_path)
+        flash[:notice].should =~ /you cannot destroy yourself/i
       end
 
       it "should destroy the user" do
