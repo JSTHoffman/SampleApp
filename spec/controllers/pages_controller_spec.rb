@@ -18,6 +18,25 @@ describe PagesController do
       response.should have_selector("title",
                                     :content => @baseTitle + " | Home")
     end
+
+    describe "for signed in users" do
+
+      before(:each) do
+        @user = test_sign_in(Factory(:user))
+        @mp1 = Factory(:micropost, :user => @user)
+      end
+
+      it "should show the right # of microposts" do
+        get :home
+        response.should have_selector("span.microposts", :content => "1 micropost")
+      end
+
+      it "should pluralize micropost count correctly" do
+        @mp2 = Factory(:micropost, :user => @user)
+        get :home
+        response.should have_selector("span.microposts", :content => "2 microposts")
+      end
+    end
   end
 
   describe "GET 'contact'" do
