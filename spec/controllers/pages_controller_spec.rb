@@ -36,6 +36,17 @@ describe PagesController do
         get :home
         response.should have_selector("span.microposts", :content => "2 microposts")
       end
+
+      it "should paginate the microposts feed" do
+        20.times do |n|
+          Factory(:micropost, :user => @user, :content => "Post number #{n + 1}")
+        end
+        get :home
+        response.should have_selector("div.pagination")
+        response.should have_selector("span.disabled", :content => "Previous")
+        response.should have_selector("a", :href => "/?page=2", :content => "2")
+        response.should have_selector("a", :href => "/?page=2", :content => "Next")
+      end
     end
   end
 
